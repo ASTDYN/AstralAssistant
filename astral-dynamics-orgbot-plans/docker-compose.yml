@@ -1,0 +1,68 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: astral-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: astral
+      POSTGRES_PASSWORD: astral
+      POSTGRES_DB: astral_dynamics
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U astral -d astral_dynamics']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    # Bound to localhost only so the database is reachable from the host for
+    # `prisma migrate dev` / `psql` but not from outside the Docker host.
+    ports:
+      - '127.0.0.1:5432:5432'
+    networks:
+      - astral-net
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: api
+    container_name: astral-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # Overrides .env for in-network access to the Postgres service (host `postgres`).
+      DATABASE_URL: postgresql://astral:astral@postgres:5432/astral_dynamics?schema=public
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - '127.0.0.1:3000:3000'
+    networks:
+      - astral-net
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: bot
+    container_name: astral-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://astral:astral@postgres:5432/astral_dynamics?schema=public
+    depends_on:
+      postgres:
+        condition: service_healthy
+      api:
+        condition: service_started
+    networks:
+      - astral-net
+
+volumes:
+  postgres_data:
+
+networks:
+  astral-net:
+    driver: bridge

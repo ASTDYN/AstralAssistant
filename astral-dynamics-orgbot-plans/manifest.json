@@ -1,0 +1,31 @@
+{
+  "packageName": "astral-dynamics-orgbot-plans",
+  "createdAt": "2026-05-06T15:32:15.876243Z",
+  "purpose": "Cursor-ready planning and scaffold package for AstralDynamics OrgBot V1",
+  "fixedDecisions": {
+    "packageManager": "npm",
+    "backendFramework": "NestJS",
+    "deploymentTarget": "Docker host",
+    "discordScope": "single private Discord server",
+    "orgName": "AstralDynamics",
+    "rankLabels": [
+      "#1",
+      "#2",
+      "#3",
+      "#4",
+      "#5"
+    ],
+    "retentionDays": {
+      "warnings": 30,
+      "incidents": 60,
+      "adminNotes": 90
+    }
+  },
+  "startHere": [
+    "README.md",
+    "CURSOR_HANDOFF.md",
+    "docs/product/v1-scope.md",
+    "docs/architecture/repo-blueprint.md",
+    "prisma/schema.prisma"
+  ]
+}
