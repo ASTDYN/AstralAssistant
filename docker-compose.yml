@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  bot:
+    image: ghcr.io/astdyn/astralassistant:latest
+    restart: unless-stopped
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - DATABASE_URL=postgresql://astral:${POSTGRES_PASSWORD}@db:5432/astralbot
+      - ADMIN_NOTIFS_CHANNEL_ID=${ADMIN_NOTIFS_CHANNEL_ID}
+      - RECRUITMENT_CHANNEL_ID=${RECRUITMENT_CHANNEL_ID}
+      - LOBBY_CHANNEL_ID=${LOBBY_CHANNEL_ID}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=astral
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=astralbot
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U astral -d astralbot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

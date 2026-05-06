@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "astral-assistant"
+version = "0.1.0"
+description = "AstralDynamics Discord Bot"
+authors = ["AstralDynamics Team"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+"discord.py" = "^2.3.2"
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.0"}
+asyncpg = "^0.29.0"
+aiohttp = "^3.9.0"
+python-dotenv = "^1.0.0"
+beautifulsoup4 = "^4.12.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.0.0"
+isort = "^5.13.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+bot = "bot.main:main"
