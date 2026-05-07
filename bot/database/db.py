@@ -1,8 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy import select
 
-from bot.database.models import Base, Member, GuildRole
-from bot.config import DATABASE_URL
+from database.models import Base, Member, GuildRole
+from config import DATABASE_URL
 
 
 class Database:
@@ -10,7 +10,6 @@ class Database:
         url = (
             DATABASE_URL
             .replace("postgresql://", "postgresql+asyncpg://")
-            .replace("postgres://", "postgresql+asyncpg://")
         )
         self.engine = create_async_engine(url, pool_pre_ping=True)
         self.session_factory = async_sessionmaker(

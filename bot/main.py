@@ -2,8 +2,8 @@ import asyncio
 import discord
 from discord.ext import commands
 
-from bot.config import DISCORD_TOKEN
-from bot.database.db import Database
+from config import DISCORD_TOKEN
+from database.db import Database
 
 
 class AstralBot(commands.Bot):

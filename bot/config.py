@@ -5,10 +5,8 @@ load_dotenv()
 
 DISCORD_TOKEN: str = os.environ["DISCORD_TOKEN"]
 DATABASE_URL: str = os.environ["DATABASE_URL"]
-
-ADMIN_NOTIFS_CHANNEL_ID: int = int(os.environ.get("ADMIN_NOTIFS_CHANNEL_ID", 0))
-RECRUITMENT_CHANNEL_ID: int = int(os.environ.get("RECRUITMENT_CHANNEL_ID", 0))
-LOBBY_CHANNEL_ID: int = int(os.environ.get("LOBBY_CHANNEL_ID", 0))
+DATABASE_USERNAME: str = os.environ["DATABASE_USERNAME"]
+DATABASE_PASSWORD: str = os.environ["DATABASE_PASSWORD"]
 
 TIMEZONES: list[tuple[str, str]] = [
     ("UTC", "UTC"),
